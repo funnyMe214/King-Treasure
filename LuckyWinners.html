@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky Winners - King's Treasure</title>
+<link rel="stylesheet" href="lucky.css">
+<style>
+    /* Add CSS styles here */
+    #winnersTable th:nth-child(2) {
+        border-bottom: 1px solid black; /* Add a border bottom to the header of the second column */
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="logo.png" alt="King's Treasure Logo" width="100px" height="100px">
+    </div>
+    <nav>
+        <ul style="display: flex; justify-content: space-around; list-style-type: none;">
+            <li><a href="main.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="LuckyWinners.html">Lucky Winners</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h1>Lucky Winners!</h1>
+    <input type="text" id="myInput" placeholder="Enter Lucky codes separated by commas...">
+    <button onclick="checkNumbers()">Check Numbers</button>
+    
+    <table id="winnersTable">
+        <thead>
+            <tr>
+                <th>Participated lucky codes</th>
+            </tr>
+        </thead>
+        <tbody id="participatedCodes"></tbody>
+        <thead>
+            <tr>
+                <th>Today's Lucky Giveaways Winners</th>
+            </tr>
+        </thead>
+        <tbody id="winnersBody"></tbody>
+    </table>
+</main>
+
+<audio id="winningSound" src="sound.m4a"></audio>
+<img id="gifImage" src="gif.gif" alt="Winning Animation" style="display: none;">
+
+<script>
+    const img = document.getElementById("gifImage");
+    const audio = document.getElementById("winningSound");
+    const preassignedCodes = ['1234', '5678', '9012', '3456'];
+
+    function checkNumbers() {
+        const numbersInput = document.getElementById('myInput').value;
+        const numbersArray = numbersInput.split(',').map(num => num.trim());
+        const winners = [];
+
+        for (const number of numbersArray) {
+            if (preassignedCodes.includes(number)) {
+                winners.push(number);
+            }
+        }
+
+        displayResults(numbersArray, winners);
+    }
+
+    function displayResults(inputCodes, winners) {
+        const participatedTable = document.getElementById('participatedCodes');
+        const winnersBody = document.getElementById('winnersBody');
+
+        // Display participated codes horizontally
+        participatedTable.innerHTML = '';
+        inputCodes.forEach(code => {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.textContent = code;
+            row.appendChild(cell);
+            participatedTable.appendChild(row);
+        });
+
+        // Display winners horizontally
+        winnersBody.innerHTML = '';
+        if (winners.length === 0) {
+            winnersBody.innerHTML = '<tr><td>No winners today.</td></tr>';
+        } else {
+            winners.forEach(winner => {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.textContent = winner;
+                row.appendChild(cell);
+                winnersBody.appendChild(row);
+            });
+            setTimeout(function(){
+                img.style.display = 'block';
+            }, 1100); // Show gif image when there are winners
+            audio.play();
+        }
+    }
+</script>
+
+</body>
+</html>
