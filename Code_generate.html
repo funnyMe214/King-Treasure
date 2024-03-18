@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King's Treasure</title>
+<link rel="stylesheet" href="generate_styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="logo.png" alt="King's Treasure Logo" height="100px" width="100px">
+    </div>
+    <nav>
+        <ul style="display: flex;  justify-content: space-around; list-style-type: none; ">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="LuckyWinners.html">Lucky Winners</a></li>
+            <li><a href="Code_generate.html">Generate Lucky Codes</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+        </ul>
+    </nav>
+</header>
+   
+<main>
+<h1>Code Generator</h1>
+
+<div id="codeDisplay">
+  <p>Generated Code: <span id="generatedCode"></span></p>
+</div>
+
+<button onclick="generateCode()">Generate Code</button>
+</main>
+<script>
+  const generatedCodes = [];
+
+  function generateCode() {
+    const code = generateRandomCode();
+    generatedCodes.push(code);
+    document.getElementById('generatedCode').textContent = code;
+  }
+
+  function generateRandomCode() {
+    const min = 1000;
+    const max = 9999;
+    return String(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+</script>
+
+</body>
+</html>
