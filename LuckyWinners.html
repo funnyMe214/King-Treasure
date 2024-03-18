@@ -23,6 +23,7 @@
             <li><a href="main.html">Home</a></li>
             <li><a href="services.html">Services</a></li>
             <li><a href="LuckyWinners.html">Lucky Winners</a></li>
+            <li><a href="Code_generate.html">Generate Lucky Codes</a></li>
             <li><a href="about_us.html">About Us</a></li>
         </ul>
     </nav>
@@ -52,29 +53,34 @@
 <audio id="winningSound" src="sound.m4a"></audio>
 <img id="gifImage" src="gif.gif" alt="Winning Animation" style="display: none;">
 
-<script>
-    const img = document.getElementById("gifImage");
+<script>const img = document.getElementById("gifImage");
     const audio = document.getElementById("winningSound");
-    const preassignedCodes = ['1234', '5678', '9012', '3456'];
-
+    const preassignedCodes = [
+        { code: '1234', amount: '$100' },
+        { code: '5678', amount: '$200' },
+        { code: '9012', amount: '$300' },
+        { code: '3456', amount: '$400' }
+    ];
+    
     function checkNumbers() {
         const numbersInput = document.getElementById('myInput').value;
         const numbersArray = numbersInput.split(',').map(num => num.trim());
         const winners = [];
-
+    
         for (const number of numbersArray) {
-            if (preassignedCodes.includes(number)) {
-                winners.push(number);
+            const foundWinner = preassignedCodes.find(codeObj => codeObj.code === number);
+            if (foundWinner) {
+                winners.push({ code: foundWinner.code, amount: foundWinner.amount });
             }
         }
-
+    
         displayResults(numbersArray, winners);
     }
-
+    
     function displayResults(inputCodes, winners) {
         const participatedTable = document.getElementById('participatedCodes');
         const winnersBody = document.getElementById('winnersBody');
-
+    
         // Display participated codes horizontally
         participatedTable.innerHTML = '';
         inputCodes.forEach(code => {
@@ -84,7 +90,7 @@
             row.appendChild(cell);
             participatedTable.appendChild(row);
         });
-
+    
         // Display winners horizontally
         winnersBody.innerHTML = '';
         if (winners.length === 0) {
@@ -92,9 +98,15 @@
         } else {
             winners.forEach(winner => {
                 const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.textContent = winner;
-                row.appendChild(cell);
+                const codeCell = document.createElement('td');
+                const amountCell = document.createElement('td');
+                codeCell.textContent = winner.code;
+                codeCell.style.padding='5px';
+
+                amountCell.textContent = winner.amount;
+                amountCell.style.color='red';
+                row.appendChild(codeCell);
+                row.appendChild(amountCell);
                 winnersBody.appendChild(row);
             });
             setTimeout(function(){
@@ -103,6 +115,7 @@
             audio.play();
         }
     }
+    
 </script>
 
 </body>
